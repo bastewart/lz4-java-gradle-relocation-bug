@@ -1,5 +1,7 @@
 # Gradle Capability Conflict with lz4-java Relocation
 
+Minimal reproduction for [yawkat/lz4-java#11](https://github.com/yawkat/lz4-java/issues/11).
+
 When depending on `org.lz4:lz4-java:1.8.1`, Gradle fails with a capability conflict.
 
 ## Reproduction
