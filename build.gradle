@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // org.lz4:lz4-java:1.8.1 is a relocation-only POM that redirects to at.yawk.lz4:lz4-java:1.8.1
+    // This causes a capability conflict because Gradle treats the relocation target as a dependency,
+    // and both modules claim the org.lz4:lz4-java capability.
+    // See: https://github.com/gradle/gradle/issues/1256
+    api 'org.lz4:lz4-java:1.8.1'
+}
+
+// Mitigation 1: Capability resolution strategy
+// Explicitly select the new coordinate when there's a capability conflict.
+// Uncomment to test:
+//
+// configurations.all {
+//     resolutionStrategy.capabilitiesResolution.withCapability('org.lz4:lz4-java') {
+//         select('at.yawk.lz4:lz4-java:0')
+//     }
+// }
+
+// Mitigation 2: Ignore Gradle metadata redirection on the repository
+// This tells Gradle to use the POM relocation instead of the .module file's dependency.
+// Uncomment to test:
+//
+// repositories.clear()
+// repositories {
+//     mavenCentral {
+//         metadataSources {
+//             mavenPom()
+//             artifact()
+//             ignoreGradleMetadataRedirection()
+//         }
+//     }
+// }
